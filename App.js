@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 
 const App = () => {
     const [isVisible, setIsVisible] = useState(0);
@@ -14,19 +14,29 @@ const App = () => {
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={handlePress}>
-                <Text style={styles.text}>This message is pressable, press me</Text>
-            </Pressable>
-            {isVisible ? (
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalBox}>
-                        <Text style={styles.modalText}>Modal message</Text>
-                        <Pressable onPress={closeModal}>
-                            <Text style={styles.closeButton}>Close modal</Text>
-                        </Pressable>
+            {!isVisible && (
+                <Pressable onPress={handlePress}>
+                    <Text style={styles.text}>This message is pressable, press me</Text>
+                </Pressable>
+            )}
+
+            <Modal
+                visible={isVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={closeModal}
+            >
+                {isVisible ? (
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalBox}>
+                            <Text style={styles.modalText}>Modal message</Text>
+                            <Pressable onPress={closeModal}>
+                                <Text style={styles.closeButton}>Close modal</Text>
+                            </Pressable>
+                        </View>
                     </View>
-                </View>
-            ) : null}
+                ) : null}
+            </Modal>
         </View>
     );
 };
